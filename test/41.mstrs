@@ -1,0 +1,21 @@
+(SIG
+   (evenm Nat -> Bool)
+   (oddm Nat -> Bool)
+   (true  -> Bool)
+   (false  -> Bool)
+   (+ Nat Nat -> Nat	)
+   (s Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   evenm(0) -> true
+   evenm(s(x)) -> oddm(x)
+   oddm(0) -> false
+   oddm(s(x)) -> evenm(x)
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+)
+(CONJECTURES
+   oddm(+(x,s(x))) = true
+)
+

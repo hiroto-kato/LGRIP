@@ -1,0 +1,19 @@
+(SIG
+   (odd Nat -> Bool)
+   (true  -> Bool)
+   (false  -> Bool)
+   (+ Nat Nat -> Nat	)
+   (s Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   odd(0) -> false
+   odd(s(0)) -> true
+   odd(s(s(x))) -> odd(x)
+)
+(CONJECTURES
+   odd(+(x,s(x))) = true
+)
+

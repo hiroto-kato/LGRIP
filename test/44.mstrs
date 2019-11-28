@@ -1,0 +1,22 @@
+(SIG
+   (s Nat -> Nat)
+   (len List -> Nat)
+   (app List List -> List)
+   (cons Nat List -> List)
+   (rot Nat List -> List)
+   (nil  -> List)
+   (0  -> Nat)
+)
+(RULES
+   len(nil) -> 0
+   len(cons(x,xs)) -> s(len(xs))
+   app(nil,ys) -> ys
+   app(cons(x,xs),ys) -> cons(x,app(xs,ys))
+   rot(0,ys) -> ys
+   rot(x,nil) -> nil
+   rot(s(n),cons(x,xs)) -> rot(n,app(xs,cons(x,nil)))   
+)
+(CONJECTURES
+   rot(len(xs),xs) = xs
+)
+

@@ -1,0 +1,21 @@
+(SIG
+   (qrev List List -> List)
+   (app List List -> List)
+   (cons Nat List -> List)
+   (len List -> Nat)
+   (s Nat -> Nat)
+   (nil  -> List)
+   (0  -> Nat)
+)
+(RULES
+   len(nil) -> 0
+   len(cons(x,xs)) -> s(len(xs))
+   app(nil,ys) -> ys
+   app(cons(x,xs),ys) -> cons(x,app(xs,ys))
+   qrev(nil,ys) -> ys
+   qrev(cons(x,xs),ys) -> qrev(xs,cons(x,ys))   
+)
+(CONJECTURES
+   len(qrev(xs,nil)) = len(xs)
+)
+

@@ -1,0 +1,16 @@
+(SIG
+   (rev List -> List)
+   (app List List -> List)
+   (cons Nat List -> List)
+   (nil  -> List)
+)
+(RULES
+   app(nil,ys) -> ys
+   app(cons(x,xs),ys) -> cons(x,app(xs,ys))
+   rev(nil) -> nil
+   rev(cons(x,xs)) -> app(rev(xs),cons(x,nil))   
+)
+(CONJECTURES
+   rev(app(rev(xs),cons(y,nil))) = cons(y,rev(rev(xs)))
+)
+

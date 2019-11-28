@@ -1,0 +1,16 @@
+(SIG
+   (@ List List -> List)
+   (cons Nat List -> List)
+   (rev List -> List)
+   (nil  -> List)
+)
+(RULES
+   @(nil,ys) -> ys
+   @(cons(x,xs),ys) -> cons(x,@(xs,ys))
+   rev(nil) -> nil
+   rev(cons(x,xs)) -> @(rev(xs),cons(x,nil))
+)
+(CONJECTURES
+   rev(rev(@(xs,ys))) = @(rev(rev(xs)),ys)   
+)
+

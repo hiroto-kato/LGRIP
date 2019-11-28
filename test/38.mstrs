@@ -1,0 +1,19 @@
+(SIG
+   (even Nat -> Bool)
+   (+ Nat Nat -> Nat	)
+   (s Nat -> Nat)
+   (0  -> Nat)
+   (true  -> Bool)
+   (false  -> Bool)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   even(0) -> true
+   even(s(0)) -> false
+   even(s(s(x))) -> even(x)   
+)
+(CONJECTURES
+   even(+(x,x)) = true
+)
+

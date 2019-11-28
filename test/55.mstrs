@@ -1,0 +1,34 @@
+(SIG
+   (less Nat Nat -> Bool)
+   (sorted List -> Bool)
+   (insert Nat List -> List)
+   (isort List -> List)
+   (ifBool Bool Bool Bool -> Bool)
+   (ifList Bool List List -> List)
+   (true  -> Bool)
+   (false  -> Bool)
+   (cons Nat List -> List)
+   (s Nat -> Nat)
+   (nil  -> List)
+   (0  -> Nat)
+)
+(RULES
+   sorted(nil) -> true
+   sorted(cons(x,nil)) -> true
+   sorted(cons(x,cons(y,ys))) -> ifBool(less(x,y),sorted(cons(y,ys)),false)
+   insert(x,nil) -> cons(x,nil)
+   insert(x,cons(y,ys)) -> ifList(less(x,y),cons(x,cons(y,ys)),cons(y,insert(x,ys)))
+   isort(nil) -> nil
+   isort(cons(x,xs)) -> insert(x,isort(xs))
+   ifBool(true,x,y) -> x
+   ifBool(false,x,y) -> y
+   ifList(true,x,y) -> x
+   ifList(false,x,y) -> y
+   less(0,y) -> true
+   less(s(x),0) -> false
+   less(s(x),s(y)) -> less(x,y)   
+)
+(CONJECTURES
+   sorted(isort(xs)) = true
+)
+

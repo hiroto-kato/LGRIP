@@ -1,0 +1,20 @@
+(SIG
+   (@ List List -> List)
+   (cons Nat List -> List)
+   (rev2 List -> List)
+   (nil  -> List)
+   (qrev List List -> List)
+   (s Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   @(nil,ys) -> ys
+   @(cons(x,xs),ys) -> cons(x,@(xs,ys))
+   qrev(nil,ys) -> ys
+   qrev(cons(x,xs),ys) -> qrev(xs,cons(x,ys))
+   rev2(xs) -> qrev(xs,nil)
+)
+(CONJECTURES
+   rev2(@(xs,ys)) = @(rev2(ys),rev2(xs))
+)
+

@@ -1,0 +1,17 @@
+(SIG
+   (minus Nat Nat -> Nat)
+   (+ Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   minus(0,y) -> 0
+   minus(s(x),0) -> s(x)
+   minus(s(x),s(y)) -> minus(x,y)
+)
+(CONJECTURES
+   minus(s(+(x,y)),y) = s(x)
+)
+

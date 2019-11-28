@@ -1,0 +1,30 @@
+(SIG
+   (less Nat Nat -> Bool)
+   (insert Nat List -> List)
+   (isort List -> List)
+   (ifList Bool List List -> List)
+   (true  -> Bool)
+   (false  -> Bool)
+   (cons Nat List -> List)
+   (len List -> Nat)
+   (s Nat -> Nat)
+   (nil  -> List)
+   (0  -> Nat)
+)
+(RULES
+   len(nil) -> 0
+   len(cons(x,xs)) -> s(len(xs))
+   isort(nil) -> nil
+   isort(cons(x,xs)) -> insert(x,isort(xs))
+   insert(x,nil) -> cons(x,nil)
+   insert(x,cons(y,ys)) -> ifList(less(x,y),cons(x,cons(y,ys)),cons(y,insert(x,ys)))
+   ifList(true,x,y) -> x
+   ifList(false,x,y) -> y
+   less(0,y) -> true
+   less(s(x),0) -> false
+   less(s(x),s(y)) -> less(x,y)   
+)
+(CONJECTURES
+   len(isort(xs)) = len(xs)
+)
+

@@ -1,0 +1,19 @@
+(SIG
+   (* Nat Nat -> Nat)
+   (+ Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (0  -> Nat)
+   (timesfn Nat Nat Nat -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   *(0,y) -> 0
+   *(s(x),y) -> +(y,*(x,y))
+   timesfn(0,y,ans) -> ans
+   timesfn(s(x),y,ans) -> timesfn(x,y,+(ans,y))
+)
+(CONJECTURES
+   timesfn(i,j,ans) = +(*(i,j),ans)
+)
+

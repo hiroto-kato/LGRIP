@@ -1,0 +1,17 @@
+(SIG
+   (+ Nat Nat -> Nat)
+   (half Nat -> Nat)
+   (s Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   half(0) -> 0
+   half(s(0)) -> 0
+   half(s(s(x))) -> s(half(x))
+)
+(CONJECTURES
+   half(+(x,s(x))) = x
+)
+

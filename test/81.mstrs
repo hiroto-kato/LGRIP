@@ -1,0 +1,19 @@
+(SIG
+   (* Nat Nat -> Nat)
+   (+ Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (0  -> Nat)
+   (exp Nat Nat -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   *(0,y) -> 0
+   *(s(x),y) -> +(y,*(x,y))
+   exp(x,0) -> s(0)
+   exp(x,s(y)) -> *(x,exp(x,y))      
+)
+(CONJECTURES
+   exp(exp(x,y),z) = exp(x,*(y,z))
+)
+

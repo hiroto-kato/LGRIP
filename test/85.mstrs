@@ -1,0 +1,29 @@
+(SIG
+   (@ List List -> List)
+   (cons Nat List -> List)
+   (rev List -> List)
+   (nil  -> List)
+   (foldlfn List Nat -> Nat)
+   (foldrfn List Nat -> Nat)
+   (h Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (+ Nat Nat -> Nat)
+   (0  -> Nat)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   @(nil,ys) -> ys
+   @(cons(x,xs),ys) -> cons(x,@(xs,ys))
+   rev(nil) -> nil
+   rev(cons(x,xs)) -> @(rev(xs),cons(x,nil))
+   h(x,y) -> +(x,y)
+   foldlfn(nil,y) -> y
+   foldlfn(cons(x,xs),y) -> foldlfn(xs,h(y,x))
+   foldrfn(nil,y) -> y
+   foldrfn(cons(x,xs),y) -> h(x,foldrfn(xs,y))
+)
+(CONJECTURES
+   foldrfn(xs,x) = foldlfn(xs,x)
+)
+

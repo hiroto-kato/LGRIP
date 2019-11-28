@@ -1,0 +1,24 @@
+(SIG
+   (+ Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (0  -> Nat)
+   (@ List List -> List)
+   (cons Nat List -> List)
+   (rev List -> List)
+   (len List -> Nat)
+   (nil  -> List)
+)
+(RULES
+   +(0,x) -> x
+   +(s(x),y) -> s(+(x,y))
+   @(nil,ys) -> ys
+   @(cons(x,xs),ys) -> cons(x,@(xs,ys))
+   rev(nil) -> nil
+   rev(cons(x,xs)) -> @(rev(xs),cons(x,nil))
+   len(nil) -> 0
+   len(cons(x,xs)) -> s(len(xs))      
+)
+(CONJECTURES
+   len(rev(xs)) = len(xs)
+)
+

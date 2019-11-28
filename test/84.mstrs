@@ -1,0 +1,15 @@
+(SIG
+   (fn2 Nat Nat -> Nat)
+   (+ Nat Nat -> Nat)
+   (s Nat -> Nat)
+   (0 Nat -> Nat)
+)
+(RULES
+   +(0,y) -> y
+   +(s(x),y) -> s(+(x,y))
+   fn2(x,y) -> +(x,y)
+)
+(CONJECTURES
+   fn2(x,y) = fn2(y,x)
+)
+

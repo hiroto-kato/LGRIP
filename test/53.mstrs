@@ -1,0 +1,16 @@
+(SIG
+   (nth Nat List -> List)
+   (cons Nat List -> List)
+   (s Nat -> Nat)
+   (nil  -> List)
+   (0  -> Nat)
+)
+(RULES
+   nth(0,ys) -> ys
+   nth(n,nil) -> nil
+   nth(s(n),cons(y,ys)) -> nth(n,ys)
+)
+(CONJECTURES
+   nth(i,nth(j,nth(k,xs))) = nth(k,nth(j,nth(i,xs)))
+)
+
