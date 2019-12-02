@@ -1,39 +1,39 @@
 Group is
 #if defined (NEW_CM)
-	$/basis.cm
-	$/smlnj-lib.cm
-	$/ml-yacc-lib.cm
+  $/basis.cm
+  $/smlnj-lib.cm
+  $/ml-yacc-lib.cm
 #else
-	smlnj-lib.cm
-	ml-yacc-lib.cm
+  smlnj-lib.cm
+  ml-yacc-lib.cm
 #endif
-	./list_util.sml
-	./string_util.sml
-	./util.sml
+  ./list_util.sml
+  ./string_util.sml
+  ./util.sml
 
-	./var.sml
-	./fun.sml
-	./symbol.sml
-	
-	./lexical.sml
-	./parsing.sml
-	./term.sml
-	./assoc_list.sml
-	./subst.sml
-	./trs.sml
-	./rewrite.sml
-	./formula.sml
-	./yices2.sml
-	./path_order.sml
-	./cr.sml
-	./comp.sml
-	./dc.sml	
-	./many_sorted.sml
-	./dm_ms.sml
-	./dc_ms.sml
-	./lemma.sml
-	./ind_ms.sml
-	./ind_main.sml
-	./lem_gen.sml
-	./main.sml
-	./exp.sml
+  ./var.sml
+  ./fun.sml
+  ./symbol.sml
+  
+  ./lexical.sml
+  ./parsing.sml
+  ./term.sml
+  ./assoc_list.sml
+  ./subst.sml
+  ./trs.sml
+  ./rewrite.sml
+  ./formula.sml
+  ./yices2.sml
+  ./path_order.sml
+  ./cr.sml
+  ./comp.sml
+  ./dc.sml  
+  ./many_sorted.sml
+  ./dm_ms.sml
+  ./dc_ms.sml
+  ./lemma.sml
+  ./ind_ms.sml
+  ./ind_main.sml
+  ./lem_gen.sml
+  ./main.sml
+  ./exp.sml

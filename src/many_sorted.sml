@@ -23,7 +23,7 @@ sig
     val sortAssignInMsTerms: ms_sign -> ms_term list -> sort_env
     val isWellSortedMsTerm: ms_sign -> ms_term -> bool
     val toMsTerm: ms_sign -> Term.term -> ms_term
-						      
+                                              
     val sortOfMsRule: ms_rule -> sort_key
     val dropSortInMsRule: ms_rule -> Comp.rule
     val dropSortInMsRules: ms_rules -> Comp.rules
@@ -73,9 +73,9 @@ type ms_rule = (Term.term * Term.term) * sort_key
 type ms_rules = ms_rule list
 type ms_eq = ms_rule
 type ms_eqs = ms_rules
-		  
+                  
 exception NotWellSorted
-	      
+              
 (* 多ソート項 *)
 fun sortOfMsTerm (t,ty) = ty
 fun dropSortInMsTerm (t,ty) = t
@@ -84,83 +84,86 @@ fun dropSortInMsTerms nil = nil
 
 (* 型推論 *)
 fun sortInference sign cnstr =
-  let
-      fun main [] env = SOME env
-	| main ((t,ty)::rest) env =
-	  if T.isVar t then
-	      case AL.find (Var.fromString (T.toString t)) env of
-		  NONE => main rest (valOf (AL.add ((Var.fromString (T.toString t)),ty) env))
-		| SOME ty1 => if ty1=ty then main rest env else NONE
-	  else
-	      case AL.find (Fun.fromString (Symbol.toString (T.root t))) sign of
-		  NONE => NONE
-		| SOME (tylist,ty1) => if ty1=ty then main (LU.union ((LP.map (fn (t0,ty0) => (t0,ty0)) (T.args t,tylist)),rest)) env else NONE
-  in
-      main cnstr []
-  end
+    let
+        fun main [] env = SOME env
+          | main ((t,ty)::rest) env =
+            if T.isVar t then
+                case AL.find (Var.fromString (T.toString t)) env of
+                    NONE => main rest (valOf (AL.add ((Var.fromString (T.toString t)),ty) env))
+                  | SOME ty1 => if ty1=ty then main rest env else NONE
+            else
+                case AL.find (Fun.fromString (Symbol.toString (T.root t))) sign of
+                    NONE => NONE
+                  | SOME (tylist,ty1) => if ty1=ty
+                                         then main (LU.union ((LP.map (fn (t0,ty0) => (t0,ty0)) (T.args t,tylist)),rest)) env
+                                         else NONE
+    in
+        main cnstr []
+    end
 
 (* 1ステップの型推論 *)
 fun sortInferenceStep sign cnstr =
-  let
-      fun main [] env = SOME env
-	| main ((t,ty)::rest) env =
-	  if T.isVar t then SOME [(t,ty)] (*変*)
-	      (*case AL.find t env of
-		  NONE => NONE
-		| SOME ty1 => if ty1=ty then SOME env else NONE*)
-	  else
-	      case AL.find (Fun.fromString (Symbol.toString (T.root t))) sign of
-		  NONE => NONE
-		| SOME (tylist,ty1) => if ty1=ty then SOME (LU.union (LP.map (fn (t0,ty0) => (t0,ty0)) (T.args t,tylist),nil)) else NONE
-  in
-      main cnstr []
-  end
-		  
-  
+    let
+        fun main [] env = SOME env
+          | main ((t,ty)::rest) env =
+            if T.isVar t
+            then SOME [(t,ty)]
+            else
+                case AL.find (Fun.fromString (Symbol.toString (T.root t))) sign of
+                    NONE => NONE
+                  | SOME (tylist,ty1) => if ty1=ty
+                                         then SOME (LU.union (LP.map (fn (t0,ty0) => (t0,ty0)) (T.args t,tylist),nil))
+                                         else NONE
+    in
+        main cnstr []
+    end
+        
+        
 fun sortAssignInMsTerms sign cnstr =
-  case sortInference sign cnstr of
-      NONE => raise NotWellSorted
-    | SOME env => env
+    case sortInference sign cnstr of
+        NONE => raise NotWellSorted
+      | SOME env => env
 fun sortAssignInMsTerm sign (term,ty) =
-  sortAssignInMsTerms sign [(term,ty)]
+    sortAssignInMsTerms sign [(term,ty)]
 fun isWellSortedMsTerm sign (term,ty) =
-  isSome (sortInference sign [(term,ty)])
-fun toMsTerm sign term = if T.isVar term then raise NotWellSorted (* or NONE *)
-			 else (case AL.find (Fun.fromString (Symbol.toString (T.root term))) sign of
-				   NONE => raise NotWellSorted (* or NONE *)
-				 | SOME (sortl,key) => (term,key))
+    isSome (sortInference sign [(term,ty)])
+fun toMsTerm sign term = if T.isVar term
+                         then raise NotWellSorted
+                         else (case AL.find (Fun.fromString (Symbol.toString (T.root term))) sign of
+                                   NONE => raise NotWellSorted
+                                 | SOME (sortl,key) => (term,key))
 
 (* 多ソート項書き換え *)
 fun sortOfMsRule (rule,ty) = ty
 fun dropSortInMsRule (rule,ty) = rule
 fun dropSortInMsRules msrules = L.map (fn (rule,ty) => rule) msrules
 fun sortAssignInMsRule sign ((l,r),ty) =
-  case sortInference sign ([(l,ty),(r,ty)]) of
-      NONE => raise NotWellSorted
-    | SOME env => env
+    case sortInference sign ([(l,ty),(r,ty)]) of
+        NONE => raise NotWellSorted
+      | SOME env => env
 fun sortAssignInMsRules sign msrules =
-  LU.union (L.concat (L.map (fn msrule => sortAssignInMsRule sign msrule) msrules),nil)
+    LU.union (L.concat (L.map (fn msrule => sortAssignInMsRule sign msrule) msrules),nil)
 fun isWellSortedMsRule sign ((l,r),ty) =
-  isSome (sortInference sign [(l,ty),(r,ty)])
+    isSome (sortInference sign [(l,ty),(r,ty)])
 fun isWellSortedMsRules sign msrules =
-  L.all (fn msrule => isWellSortedMsRule sign msrule) msrules
+    L.all (fn msrule => isWellSortedMsRule sign msrule) msrules
 
 (* 多ソート項の等式 *)
 fun sortOfMsEq (eq,ty) = ty
 fun dropSortInMsEq (eq,ty) = eq
 fun dropSortInMsEqs mseqs = L.map (fn (eq,ty) => eq) mseqs
 fun sortAssignInMsEq sign ((s,t),ty) =
-  case sortInference sign ([(s,ty),(t,ty)]) of
-      NONE => raise NotWellSorted
-    | SOME env => env
+    case sortInference sign ([(s,ty),(t,ty)]) of
+        NONE => raise NotWellSorted
+      | SOME env => env
 fun sortAssignInMsEqs sign mseqs =
-  LU.union (L.concat (L.map (fn mseq => sortAssignInMsEq sign mseq) mseqs),nil)
+    LU.union (L.concat (L.map (fn mseq => sortAssignInMsEq sign mseq) mseqs),nil)
 fun isWellSortedMsEq sign ((s,t),ty) = 
-  isSome (sortInference sign [(s,ty),(t,ty)])
+    isSome (sortInference sign [(s,ty),(t,ty)])
 fun isWellSortedMsEqs sign mseqs =
-  L.all (fn mseq => isWellSortedMsEq sign mseq) mseqs
+    L.all (fn mseq => isWellSortedMsEq sign mseq) mseqs
 
-	
+          
 fun prSort str = str
 fun prSortSpec ([],s) = prSort s
   | prSortSpec (ws,s) =
@@ -170,14 +173,14 @@ fun prMsFun (f,spec) = (Fun.toString f) ^ ":" ^ (prSortSpec spec)
 fun prMsFuns nil = "\t[ ]\n\n"
   | prMsFuns l =
     let
-	fun msFuns (t::nil) = "\t  " ^ (prMsFun t)
-	  | msFuns (t::ts) = "\t  " ^ (prMsFun t) ^ "\n" ^ (msFuns ts)
-	fun msFunsf (t::nil) = (prMsFun t)
-	  | msFunsf (t::ts) = (prMsFun t) ^ "\n" ^ (msFuns ts)
+        fun msFuns (t::nil) = "\t  " ^ (prMsFun t)
+          | msFuns (t::ts) = "\t  " ^ (prMsFun t) ^ "\n" ^ (msFuns ts)
+        fun msFunsf (t::nil) = (prMsFun t)
+          | msFunsf (t::ts) = (prMsFun t) ^ "\n" ^ (msFuns ts)
     in
-	"\t  " ^ (msFunsf l) ^ "  \n\n"
+        "\t  " ^ (msFunsf l) ^ "  \n\n"
     end
-		       
+        
 fun rdSort str = str
 
 structure SortSpecialSymbols =
@@ -197,27 +200,27 @@ local
     infix 0 ||
 
     fun msfun toks =
-      ( id --  ":" $-- sortspec) toks
+        ( id --  ":" $-- sortspec) toks
     and sortspec toks =
-	( sortseq -- "-" $-- (">" $-- id) || id >> makePair1 ) toks
+        ( sortseq -- "-" $-- (">" $-- id) || id >> makePair1 ) toks
     and sortseq toks =
-	( id -- "," $-- sortseq >> makeList || id >> makeList1 ) toks
-								 
+        ( id -- "," $-- sortseq >> makeList || id >> makeList1 ) toks
+                                                                 
 in
 
 fun rdMsFun str = reader msfun str
 fun rdSortSpec str = reader sortspec str
-			    
+                            
 end (* of local *)
 
 fun sortOfFun sign f =
-  case AL.find f sign of
-      SOME spec =>  spec
-    | NONE => raise Fail "Error: ManySorted.sortOfFun: function without sort specification"
+    case AL.find f sign of
+        SOME spec =>  spec
+      | NONE => raise Fail "Error: ManySorted.sortOfFun: function without sort specification"
 
 fun memberMsRule x ys = L.exists (fn y => Trs.equal (dropSortInMsTerm x) (dropSortInMsTerm y)) ys
 (* xsからysを取り除く *)
 fun diffMsRules (xs,ys) = L.filter (fn x => not(memberMsRule x ys)) xs
-		    
+                                   
 end (* of local *)
 end

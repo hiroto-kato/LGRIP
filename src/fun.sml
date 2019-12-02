@@ -14,8 +14,8 @@ struct
 type key = string
 
 fun toString key = if String.isPrefix "?" key
-		   then raise Fail "Error: Fun.toString: invalid fun name"
-		   else key
+       then raise Fail "Error: Fun.toString: invalid fun name"
+       else key
 fun fromString str = str
 end
 

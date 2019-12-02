@@ -17,13 +17,13 @@ in
 
 (* "*=INT" => INT *)
 fun intStr str = case Int.fromString (S.str (L.last (S.explode str))) of
-		     SOME i => i
-		   | NONE => 0
+                     SOME i => i
+                   | NONE => 0
 (* find "*=INT" string from string list *)
 fun intStrL strl strpattern = case L.find (fn s => L.exists (fn s1 => String.isSubstring s1 s) strpattern) strl of
-				  SOME str1 => intStr str1
-			       |  NONE => 0
-				
+                                  SOME str1 => intStr str1
+                               |  NONE => 0
+                                              
 end (* of local *)
 
 end (* of struct *)

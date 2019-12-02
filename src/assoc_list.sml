@@ -14,8 +14,8 @@ fun find x [] = NONE
   | find x ((k,v)::ys) = if x = k then SOME v else find x ys
 
 fun add (k,v) ys = case find k ys of
-		       SOME w => if v = w then SOME ys
-				 else NONE
-		     | NONE => SOME ((k,v)::ys)
+                       SOME w => if v = w then SOME ys
+                                 else NONE
+                     | NONE => SOME ((k,v)::ys)
 
 end

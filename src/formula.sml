@@ -12,7 +12,7 @@ sig
                     | Mul of arith * arith
                     | Sum of arith list
                     | Prod of arith list
-
+                                    
     datatype atom = Eq of arith * arith 
                   | Neq of arith * arith 
                   | Ge of arith * arith
@@ -64,5 +64,5 @@ datatype prop = True
               | Imp of prop * prop
               | Iff of prop * prop
               | IfThenElse of prop * prop * prop
-						
+            
 end
