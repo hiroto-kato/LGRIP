@@ -1,5 +1,5 @@
 
-# LGRIP
+# LGRIP (Lemma Generator based on Rewriting Induction Prover)
 
 ## Inductive Theorem Prover
 
